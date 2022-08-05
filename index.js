@@ -1,4 +1,3 @@
-import { Express } from "express";
 
 const express = require('express')
 const app = express();
@@ -8,5 +7,5 @@ app.get('/', (req, resp) => {
 });
 
 app.listen(process.env.PORT || 4002, () => {
-    console.log("Funcionando")
+    console.log("Funcionando pablitooo")
 })
