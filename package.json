@@ -11,10 +11,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": ""
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrancoS24/pokedex-backend-grupo2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FrancoS24/pokedex-backend-grupo2/issues"
+  },
+  "homepage": "https://github.com/FrancoS24/pokedex-backend-grupo2#readme",
   "devDependencies": {},
   "description": ""
 }
