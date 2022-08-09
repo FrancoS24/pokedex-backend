@@ -19,6 +19,14 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrancoS24/pokedex-backend-grupo2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FrancoS24/pokedex-backend-grupo2/issues"
+  },
+  "homepage": "https://github.com/FrancoS24/pokedex-backend-grupo2#readme",
   "devDependencies": {},
   "description": ""
 }
