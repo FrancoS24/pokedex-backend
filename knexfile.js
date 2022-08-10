@@ -10,8 +10,8 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       port: 5432,
-      user: 'senpai',
-      password: '2303',
+      user: 'postgres',
+      password: 'carbonero1891',
       database: 'ProyectoFinal'
     }
   },

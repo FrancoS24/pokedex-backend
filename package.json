@@ -6,7 +6,6 @@
     "nodemon": "^2.0.19",
     "pg": "^8.7.3"
   },
-  
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
@@ -27,6 +26,5 @@
     "url": "https://github.com/FrancoS24/pokedex-backend-grupo2/issues"
   },
   "homepage": "https://github.com/FrancoS24/pokedex-backend-grupo2#readme",
-  "devDependencies": {},
   "description": ""
 }
