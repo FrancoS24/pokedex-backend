@@ -3,7 +3,7 @@ const knex = require('knex')(configDB.development);
 
 const getAllItems = () =>{
     return knex 
-    .column('id' , 'name')
+    .column('id' , 'name', 'password')
     .select()
     .from('user')
 }
