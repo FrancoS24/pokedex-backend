@@ -3,7 +3,7 @@ const knex = require('knex')(configDB.development);
 
 const getAllItems = () => {
     return knex
-    .colum('id', 'name', 'height', 'weight', 'description', 'image', 'HP', 'ATK', 'DEF', 'SATK', 'SDEF', 'SPD' )
+    .column('id', 'name', 'height', 'weight', 'description', 'image', 'HP', 'ATK', 'DEF', 'SATK', 'SDEF', 'SPD' )
     .select()
     .from('pokemon')
 }
