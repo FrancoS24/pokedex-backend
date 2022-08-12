@@ -2,6 +2,7 @@ const express = require('express');
 const { types } = require('pg');
 const router = express.Router();
 const pokemonQueries = require('../controllers/pokemon')
+const pokeMovesQueries = require('../controllers/pokemon_moves')
 
 
 router.get('/' , async (req, res) => {
@@ -11,19 +12,23 @@ router.get('/' , async (req, res) => {
 
 router.get('/:id', async (req, res)=> {
     const id = req.params.id
-    const pokemon = await pokemonQueries.getItemByID(id);
+    const pokemon = await pokemonQueries.getItemById(id);
     res.json(pokemon)
 })
 
 router.post('/' , async (req, res) => {
     const body = req.body
-    await pokemonQueries.createItem(body).returning('id').then((id) => {
-      const pokeMoves = body.moves.map((movimiento) => ({moves_id: movimiento.id, pokemon_id: id}))
-    await pokeMovesQueries.createItem(pokeMoves)
-    }).then((id) => {
-        const pokeTypes = body.types.map((tipos) => ({types_id: tipos.id, pokemon_id: id}))
-    await pokeTypesQueries.createItem(pokeTypes)
-    });
+    const newPokemon = await pokemonQueries.createItem(body)
+    res.json(newPokemon)
+    
+//         .returning('id').then((id) => {
+//         const pokeMoves = body.moves.map((movimiento) => ({moves_id: movimiento.id, pokemon_id: id}))
+//         const newPokeMoves = await pokeMovesQueries.createItem(pokeMoves)}).then((id) => {
+//         const pokeTypes = body.types.map((tipos) => ({types_id: tipos.id, pokemon_id: id}))
+//         const newPokeTypes = await pokeTypesQueries.createItem(pokeTypes)
+//    });
+
+   
    
 })
 
