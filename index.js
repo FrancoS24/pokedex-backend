@@ -4,6 +4,9 @@ const app = express();
 
 const pokemonRouter = require('./routes/pokemon');
 const userRouter = require('./routes/user');
+// const movesRouter = require('./routes/moves');
+// const pokemon_movesRouter = require('./routes/pokemon_moves');
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( {
@@ -11,7 +14,9 @@ app.use(bodyParser.urlencoded( {
  }));
 
  app.use("/pokemon", pokemonRouter);
- app.use("/user", userRouter)
+ app.use("/user", userRouter);
+//  app.use("/moves", movesRouter);
+//  app.use("/pokemon_moves", pokemon_movesRouter); 
 
 app.get('/', (req, resp) => {
     resp.send("Mi primer backend en heroku")
