@@ -16,7 +16,6 @@ router.post('/register', async (req, res) => {
     }
 
     usuarios.push(newUser);
-
     res.json({ success: true, newUser, usuarios})
 
 
