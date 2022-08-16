@@ -2,44 +2,27 @@ const configDB = require('../knexfile');
 const knex = require('knex')(configDB.development);
 
 const getAllItems = () => {
-    // return knex
-    // .column('id', 'name', 'height', 'weight', 'description', 'image', 'HP', 'ATK', 'DEF', 'SATK', 'SDEF', 'SPD' )
-    // .select()
-    // .from('pokemon')
 
     return knex
     .select('*')
     .from('pokemon')
-    .join('pokemon_moves', {'pokemon.id': 'pokemon_moves.pokemon_id'})
-    .join('pokemon_type', {'pokemon.id': 'pokemon_type.pokemon_id'})
-  
-      
-
-    // BUSCAR LA MANERA CORRECTA DE ESCRIBIRLO PARA QUE FUNCIONE
-
-
-    // .join('pokemon_moves', {'pokemon_id': 'pokemon.id'})
-    // .join('pokemon_type', {'pokemon_id': 'pokemon.id'})
-
-    // .join('pokemon_moves', 'pokemon_moves.pokemon_id', '=', 'pokemon.id')
-    // .join('pokemon_type', 'pokemon_type.pokemon_id', '=', 'pokemon.id')
-
-    // .join('types', 'types.id', '=', 'pokemon.types_id')
-    // .join('pokemon_moves_id', '=', 'pokemon_moves.id')
-    // .join('pokemon_type_id', '=', 'pokemon_type.id')
 }
 
 const getItemById = (id) => {
-    return knex('pokemon')
+    let pokemonFinal = {
+    pokemon:{},
+    moves:{}
+    }
+    return knex
+    .select('*')
+    .from('pokemon')
     .where('id', id)
-    .select('name', 'id')
+    pokemonFinal.pokemon = 'pokemon'
+    .innerJoin('pokemon_moves', () => {
+        this.select('pokemon.id','=', 'pokemon_moves.pokemon_id')
+    })
 }
 
-// const createItem = (body) => {
-//     return knex('pokemon')
-//     .insert(body)
-
-// }
 
 const createItem = (body) => {
     knex('pokemon')
@@ -62,8 +45,7 @@ const createItem = (body) => {
         console.error(error)});
       
 }
-   
-// }
+
 
 
 const updateItem = (id, body) => {
@@ -86,4 +68,3 @@ module.exports = {
     deleteItem
 
 }
-
