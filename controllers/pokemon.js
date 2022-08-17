@@ -6,20 +6,6 @@ const getAllItems = () => {
     .select('*')
     .from('pokemon')
 
-
-    // .join('pokemon_moves', {'pokemon.id': 'pokemon_moves.pokemon_id'})
-    // .join('pokemon_type', {'pokemon.id': 'pokemon_type.pokemon_id'})
-  
-    // BUSCAR LA MANERA CORRECTA DE ESCRIBIRLO PARA QUE FUNCIONE
-    // .join('pokemon_moves', {'pokemon_id': 'pokemon.id'})
-    // .join('pokemon_type', {'pokemon_id': 'pokemon.id'})
-
-    // .join('pokemon_moves', 'pokemon_moves.pokemon_id', '=', 'pokemon.id')
-    // .join('pokemon_type', 'pokemon_type.pokemon_id', '=', 'pokemon.id')
-
-    // .join('types', 'types.id', '=', 'pokemon.types_id')
-    // .join('pokemon_moves_id', '=', 'pokemon_moves.id')
-    // .join('pokemon_type_id', '=', 'pokemon_type.id')
 }
 
 
@@ -59,34 +45,43 @@ const getItemById = async (id) => {
 
 
 const createItem = async (body) => {
-    let pokemonid = '';
-    knex('pokemon')
+    let pokemonid;
+   await knex('pokemon')
     .insert(body.pokemon)
     .returning('id')
     .then( (arregloPokemon) => {
         pokemonid = arregloPokemon[0].id
-         const pokemonsToInsertMoves = body.moves.map(move =>
-             ({ pokemon_id: pokemonid,
-                moves_id: move.moves_id 
-            }));
+         const pokemonsToInsertMoves = body.moves.map(movimiento => ({ 
+            pokemon_id: pokemonid,
+            moves_id: movimiento.moves_id 
+            }))
+            
           return pokemonsToInsertMoves;
     })
-     .then( (pokemonsToInsertMoves) => {
+    .then((pokemonsToInsertMoves) => {
         knex ('pokemon_moves')
         .insert(pokemonsToInsertMoves)
         .then((res) => { 
             console.log(res)
         })
     })
-    .then()
-    const pokemonToInsertTypes = body.types.map(type => ({
-        pokemon_id: arregloPokemon.id,
-        types_id: type.types_id
-    }));
-    await knex('pokemon_type')
-    .insert(pokemonToInsertTypes)
-    .then((res) => {
-        console.log(res)
+    .then( () => {
+        const pokemonToInsertTypes = body.types.map(tipo => ({
+            pokemon_id: pokemonid,
+            types_id: tipo.types_id
+        }))
+        
+        return pokemonToInsertTypes;
+    })
+    .then( (pokemonToInsertTypes) => {
+        knex('pokemon_type')
+         .insert(pokemonToInsertTypes)
+         .then((res) => {
+             console.log(res)
+         })
+     })
+    .catch( (error) => {
+        console.log(error)
     })
 }
    
