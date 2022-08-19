@@ -16,8 +16,8 @@ router.get('/:id', async (req, res)=> {
 
 router.post('/' , async (req, res) => {
     const body = req.body
-    const newuser = await userQueries.createItem(body);
-    res.json(newuser)
+    const newUser = await userQueries.createItem(body);
+    res.json(newUser)
 })
 
 router.put('/:id' , async (req, res) => {

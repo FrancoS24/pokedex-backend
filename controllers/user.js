@@ -8,7 +8,7 @@ const getAllItems = () =>{
     .from('user')
 }
 
-const getItemByID = (id) => {
+const getItemById = (id) => {
     return knex('user')
     .where('id' , id)
     .select('name', 'id')
@@ -33,7 +33,7 @@ const deleteItem = (id) =>{
 
 module.exports = {
     getAllItems,
-    getItemByID,
+    getItemById,
     createItem,
     updateItem,
     deleteItem
