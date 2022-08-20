@@ -4,6 +4,8 @@ const app = express();
 
 const pokemonRouter = require('./routes/pokemon');
 const userRouter = require('./routes/user');
+const pokemon_typeRouter = require('./routes/pokemon_type')
+const pokemon_movesRouter = require('./routes/pokemon_moves');
 
 const authRouter = require('./routes/auth');
 
@@ -18,6 +20,8 @@ app.use(bodyParser.urlencoded( {
 
  app.use("/pokemon", pokemonRouter);
  app.use("/user", userRouter);
+ app.use("/pokemon_type", pokemon_typeRouter);
+ app.use("/pokemon_moves", pokemon_movesRouter);
  app.use("/", authRouter)
 
  

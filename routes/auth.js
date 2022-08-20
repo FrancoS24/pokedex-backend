@@ -15,21 +15,22 @@ const users =[];
 router.post('/register', async (req, res) => {
     
     //hash contraseña
-    const salt = await bcrypt.genSalt(10);
-    const password = await bcrypt.hash(req.body.password, salt);
+    const salt = bcrypt.genSaltSync(10);
+    const password = bcrypt.hashSync(req.body.password, salt);
 
     const newUser = {
         name: req.body.name,
         password: password
     }
-    await knex('user')
+    console.log(newUser)
+    return await knex('user')
     .insert(newUser)
-    .then((user) => {
-        res.json({success: true, user});
+    .then((res) => {
+        res.status(200).json({success: true, newUser, res});
 
     })
     .catch((error) => {
-        res.status(400).json({ error: 'Error', error})
+        res.status(400).json({ error: error})
     })
 
     
@@ -37,33 +38,43 @@ router.post('/register', async (req, res) => {
 
 // Buscar usuario
 router.post('/login', async (req, res) => {
-    
-    const user = users.find((usuario) => usuario.name === req.body.name );
+   
+    const user = await knex
+    .select('*')
+    .from('user')
+    .where('user.name', req.body.name)
+    .then((user) => {
+        return user
+    }) 
+    console.log(user)
+    //((usuario) => usuario.name === req.body.name );
     if (!user) {
-        return res.status(400).json({error: "usuario no encontrado"});
+        return res.status(400).json({error: "usuario no encontrado", access: false});
     }
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    const validPassword = bcrypt.compareSync(req.body.password, user[0].password);
     if (!validPassword) {
-        return res.status(400).json({error: "Contraseña no válida"})
+        return res.status(400).json({error: "Contraseña no válida", access: false})
     }
 
 
 const token = jwt.sign({
-    id: user.id,
-    name: user.name
+    id: user[0].id,
+    name: user[0].name
 }, TOKEN_SECRET);
 
 
 
-res.json({error: null, data: "Login exitoso", token});
+
+
+res.json({error: null, access: true, token});
 
 });
 
 
-router.get('/user', verifyToken, async (req, res) => {
-    console.log(req.user);
+// router.get('/user', verifyToken, async (req, res) => {
+//     console.log(req.user);
 
-    res.json({error: null, users});
-});
+//     res.json({error: null, users});
+// });
 
 module.exports = router;
