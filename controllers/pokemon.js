@@ -96,6 +96,46 @@ const deleteItem = (id) => {
     return knex('pokemon')
     .where('id', id)
     .del()
+
+//     let pokemonid;
+//    await knex('pokemon')
+//     .returning('id')
+//     .then( (arregloPokemon) => {
+//         pokemonid = arregloPokemon[0].id
+//          const pokemonsToDeleteMoves = moves.map(movimiento => ({ 
+//             pokemon_id: pokemonid,
+//             moves_id: movimiento.moves_id 
+//             }))
+            
+//           return pokemonsToDeleteMoves;
+//     })
+//     .then((pokemonsToDeleteMoves) => {
+//         knex ('pokemon_moves')
+//         .del(pokemonsToDeleteMoves)
+//         .then((res) => { 
+//             console.log(res)
+//         })
+//     })
+//     .then( () => {
+//         const pokemonToDeleteTypes = types.map(tipo => ({
+//             pokemon_id: pokemonid,
+//             types_id: tipo.types_id
+//         }))
+        
+//         return pokemonToDeleteTypes;
+//     })
+//     .then( (pokemonToDeleteTypes) => {
+//         knex('pokemon_type')
+//          .del(pokemonToDeleteTypes)
+//          .then((res) => {
+//              console.log(res)
+//          })
+//      })
+//     .del()
+//     .catch( (error) => {
+//         console.log(error)
+//     })
+    
 }
 
 module.exports = {
