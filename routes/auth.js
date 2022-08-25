@@ -25,12 +25,13 @@ router.post('/register', async (req, res) => {
     console.log(newUser)
     return await knex('user')
     .insert(newUser)
-    .then((res) => {
-        res.status(200).json({success: true, newUser, res});
+    .then(() => {
+        return res.status(200).json({success: true, newUser});
+        
 
     })
     .catch((error) => {
-        res.status(400).json({ error: error})
+        return res.status(400).json({ error: error})
     })
 
     
@@ -51,10 +52,13 @@ router.post('/login', async (req, res) => {
     if (!user) {
         return res.status(400).json({error: "usuario no encontrado", access: false});
     }
+    console.log(req.body.password)
+    console.log(user[0].password)
     const validPassword = bcrypt.compareSync(req.body.password, user[0].password);
     if (!validPassword) {
         return res.status(400).json({error: "Contraseña no válida", access: false})
     }
+    
 
 
 const token = jwt.sign({
@@ -62,6 +66,10 @@ const token = jwt.sign({
     name: user[0].name
 }, TOKEN_SECRET);
 
+router.get('/agregarPokemon', verifyToken, async (req, res) => {
+    console.log(req.user);
+    res.json({error: null, users});
+});
 
 
 
@@ -71,10 +79,5 @@ res.json({error: null, access: true, token});
 });
 
 
-// router.get('/user', verifyToken, async (req, res) => {
-//     console.log(req.user);
-
-//     res.json({error: null, users});
-// });
 
 module.exports = router;
