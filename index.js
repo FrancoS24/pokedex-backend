@@ -1,6 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
+const cors = require('cors')
+
+app.use(cors());
+
+
 
 const pokemonRouter = require('./routes/pokemon');
 const userRouter = require('./routes/user');
@@ -19,7 +24,7 @@ app.use(bodyParser.urlencoded( {
  }));
 
  app.use("/pokemon", pokemonRouter);
- app.use("/user", userRouter);
+ app.use("users", userRouter);
  app.use("/pokemon_type", pokemon_typeRouter);
  app.use("/pokemon_moves", pokemon_movesRouter);
  app.use("/", authRouter)
