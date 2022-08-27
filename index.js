@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded( {
  }));
 
  app.use("/pokemon", pokemonRouter);
- app.use("users", userRouter);
+ app.use("/users", userRouter);
  app.use("/pokemon_type", pokemon_typeRouter);
  app.use("/pokemon_moves", pokemon_movesRouter);
  app.use("/", authRouter)
@@ -33,9 +33,6 @@ app.use(bodyParser.urlencoded( {
 //  app.use("/moves", movesRouter);
 //  app.use("/pokemon_moves", pokemon_movesRouter); 
 
-app.get('/', (req, resp) => {
-    resp.send("Mi primer backend en heroku")
-});
 
 app.listen(process.env.PORT || 4002, () => {
     console.log("Funcionando")
