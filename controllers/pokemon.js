@@ -3,30 +3,28 @@ const { all } = require('../routes/pokemon');
 const knex = require('knex')(configDB.development);
 
 const getAllItems = async () => {
-    let allPokemons = []
-    const arrayPokemons = await knex
+    let allPokemons = {
+        pokemon: {},
+        types: []
+    }
+    await knex
     .select('*')
     .from('pokemon')
-    .then((res) => {
-        return res
-    })
-    console.log(arrayPokemons)
-    allPokemons = await arrayPokemons.map( (pokemon) => ({
-        ...pokemon,
-        types: knex
-        .select("types.name")
-        .from("types")
-        .innerJoin("pokemon_type", "types.id", "pokemon_type.types_id")
-        .innerJoin("pokemon", "pokemon_type.pokemon_id", "pokemon.id")
-        .where("pokemon.id", pokemon.id)
-        .then((typesOfPokemos) => {
-            console.log(typesOfPokemos)
-          return typesOfPokemos
-        })
-    }))
+    
+    .then((arregloPokemon) => {
+        return allPokemons['pokemon'] = arregloPokemon
+    });
+    await knex
+    .select("types.name")
+    .from("types")
+    .innerJoin("pokemon_type", "types.id", "pokemon_type.types_id")
+    .innerJoin("pokemon", "pokemon_type.pokemon_id", "pokemon.id")
+    .then((typesOfPokemos) => {
+      return allPokemons['types'] = typesOfPokemos
+    });
     return allPokemons
-
 }
+
 
 
 const getItemById = async (id) => {
