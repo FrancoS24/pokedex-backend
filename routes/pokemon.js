@@ -17,7 +17,7 @@ router.get('/:id', async (req, res)=> {
     res.json(pokemon)
 })
 
-router.post('/agregarPokemon' , verifyToken, async (req, res) => {
+router.post('/NewPokemon', async (req, res) => {
     const body = req.body
     const newPokemon = await pokemonQueries.createItem(body)
     res.json(newPokemon)

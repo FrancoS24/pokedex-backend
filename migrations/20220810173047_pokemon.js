@@ -16,6 +16,7 @@ exports.up = function(knex) {
         table.integer('SATK');
         table.integer('SDEF');
         table.integer('SPD');
+        table.string('type');
     })
 };
 
