@@ -16,6 +16,7 @@
         table.integer('satk');
         table.integer('sdef');
         table.integer('spd');
+        table.string('type');
     })
 };
 

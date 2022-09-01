@@ -12,7 +12,7 @@ const router = express.Router();
 const users =[];
 
 // Registro usuario
-router.post('/register', async (req, res) => {
+router.post('/signup', async (req, res) => {
     
     //hash contraseña
     const salt = bcrypt.genSaltSync(10);
@@ -20,6 +20,7 @@ router.post('/register', async (req, res) => {
 
     const newUser = {
         name: req.body.name,
+        email: req.body.email,
         password: password
     }
     console.log(newUser)
@@ -39,44 +40,79 @@ router.post('/register', async (req, res) => {
 
 // Buscar usuario
 router.post('/login', async (req, res) => {
-   
+    //buscamos usuario con mismo mail
+    console.log(req.body, 'req.body')
+    try {
     const user = await knex
     .select('*')
     .from('user')
     .where('user.name', req.body.name)
     .then((user) => {
-        return user
-    }) 
-    console.log(user)
-    //((usuario) => usuario.name === req.body.name );
-    if (!user) {
-        return res.status(400).json({error: "usuario no encontrado", access: false});
+        return user;
+    })
+    console.log(user, 'user')
+    if(!user) {
+        return res.status(400).json({error: 'Usuario no encontrado', success:false});
     }
-    console.log(req.body.password)
-    console.log(user[0].password)
-    const validPassword = bcrypt.compareSync(req.body.password, user[0].password);
-    if (!validPassword) {
-        return res.status(400).json({error: "Contraseña no válida", access: false})
+    const validPassword = bcrypt.compareSync(  req.body.password, user[0].password );
+    console.log(validPassword)
+    if(!validPassword) {
+        return res.status(400).json({error: 'Contraseña no válida', success:false});
     }
+    //Crear el token
+    const token = jwt.sign({
+        name: user[0].name,
+        
+        id: user[0].id
+    }, TOKEN_SECRET);
+    res.json({error: null, data: 'Login exitoso', token, success:true});
+    } catch (error) {
+        console.log("Error en login");
+      }
+});
+// router.post('/', async (req, res) => {
+    
+//     try
+//     const user = await knex
+//     .select('*')
+//     .from('user')
+//     .where('user.name', req.body.name)
+//     .then((user) => {
+//         return user
+//     }) 
+//     console.log(user)
+//     // ((user) => user.name === req.body.name );
+//     if (!user) {
+//         return res.status(400).json({error: "usuario no encontrado", access: false});
+//     }
+//     console.log(req.body.password)
+
+//     const validPassword = bcrypt.compareSync(req.body.password, user[0].password);
+//     if (!validPassword) {
+//         return res.status(400).json({error: "Contraseña no válida", access: false})
+//     }
     
 
 
-const token = jwt.sign({
-    id: user[0].id,
-    name: user[0].name
-}, TOKEN_SECRET);
+//     const token = jwt.sign({
+//     id: user[0].id,
+//     name: user[0].name,
+//     email: user[0].email
+//     }, TOKEN_SECRET);
 
-router.get('/agregarPokemon', verifyToken, async (req, res) => {
-    console.log(req.user);
-    res.json({error: null, users});
-});
+// //     router.get('/', verifyToken, async (req, res) => {
+// //     console.log(req.user);
+// //     res.json({error: null, users});
+// // });
 
 
 
 
-res.json({error: null, access: true, token});
+//     res.json({error: null, access: true, token});
 
-});
+
+
+// });
 
 
 
